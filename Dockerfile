@@ -1,6 +1,6 @@
 # UPDATE ME when new version is out !!!!
-ARG BVER=0.6.2
-ARG CLIVER=0.6.2
+ARG BVER=0.6.3
+ARG CLIVER=0.6.3
 FROM ubuntu:18.04 as builder
 
 # Dockerfile for running Binance node from binary packages under docker
@@ -49,11 +49,11 @@ ENV BNET=testnet
 ENV BNCHOME=/opt/bnbchaind
 
 COPY --from=builder /node-binary/cli/testnet/${CLIVER}/linux/tbnbcli /node-binary/cli/testnet/${BVER}/linux/
-COPY --from=builder /node-binary/cli/prod/${CLIVER}/linux/bnbcli /node-binary/cli/prod/${BVER}/linux/
+#COPY --from=builder /node-binary/cli/prod/${CLIVER}/linux/bnbcli /node-binary/cli/prod/${BVER}/linux/
 COPY --from=builder /node-binary/${NODETYPE}/testnet/${BVER}/linux/bnbchaind /node-binary/fullnode/testnet/${BVER}/linux/
-COPY --from=builder /node-binary/${NODETYPE}/prod/${BVER}/linux/bnbchaind /node-binary/fullnode/prod/${BVER}/linux/
+#COPY --from=builder /node-binary/${NODETYPE}/prod/${BVER}/linux/bnbchaind /node-binary/fullnode/prod/${BVER}/linux/
 COPY --from=builder /node-binary/${NODETYPE}/testnet/${BVER}/config/* /node-binary/fullnode/testnet/${BVER}/config/
-COPY --from=builder /node-binary/${NODETYPE}/prod/${BVER}/config/* /node-binary/fullnode/prod/${BVER}/config/
+#COPY --from=builder /node-binary/${NODETYPE}/prod/${BVER}/config/* /node-binary/fullnode/prod/${BVER}/config/
 COPY ./bin/*.sh /usr/local/bin/
 
 RUN set -ex \
