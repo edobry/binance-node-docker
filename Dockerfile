@@ -18,7 +18,7 @@ ARG NODETYPE=fullnode
 #ARG NODETYPE=lightnode
 
 RUN apt-get update && apt-get install -y --no-install-recommends upx ca-certificates wget unzip binutils
-RUN	wget https://github.com/binance-chain/node-binary/archive/master.zip && unzip node-binary-master.zip
+RUN	wget https://github.com/binance-chain/node-binary/archive/master.zip && unzip *.zip
 
 # Dirty fix for official repo lack of +x on binaries
 # RUN chmod +x /node-binary/cli/testnet/${CLIVER}/linux/tbnbcli \
