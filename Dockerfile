@@ -1,5 +1,5 @@
 # UPDATE ME when new version is out !!!!
-ARG BVER=0.6.3
+ARG BVER=0.6.3-hotfix
 ARG CLIVER=0.6.3
 FROM ubuntu:18.04 as builder
 
