@@ -14,7 +14,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 ARG BVER
 ARG CLIVER
-ARG NODETYPE=fullnode
+ARG NODETYPE=quicksync
 #ARG NODETYPE=lightnode
 
 RUN apt-get update && apt-get install -y --no-install-recommends upx ca-certificates wget git git-lfs binutils
@@ -36,18 +36,12 @@ ARG BVER
 ARG CLIVER
 ENV BVER=$BVER
 ENV CLIVER=$CLIVER
-ARG NODETYPE=fullnode
-#ARG NODETYPE=lightnode
-ENV BNET=testnet
-#ENV BNET=prod
+ARG NODETYPE=quicksync
+ENV BNET=prod
 ENV BNCHOME=/opt/bnbchaind
 
-COPY --from=builder /node-binary/cli/testnet/${CLIVER}/linux/tbnbcli /node-binary/cli/testnet/${BVER}/linux/
-COPY --from=builder /node-binary/cli/prod/${CLIVER}/linux/bnbcli /node-binary/cli/prod/${BVER}/linux/
-COPY --from=builder /node-binary/${NODETYPE}/testnet/${BVER}/linux/bnbchaind /node-binary/fullnode/testnet/${BVER}/linux/
-COPY --from=builder /node-binary/${NODETYPE}/prod/${BVER}/linux/bnbchaind /node-binary/fullnode/prod/${BVER}/linux/
-COPY --from=builder /node-binary/${NODETYPE}/testnet/${BVER}/config/* /node-binary/fullnode/testnet/${BVER}/config/
-COPY --from=builder /node-binary/${NODETYPE}/prod/${BVER}/config/* /node-binary/fullnode/prod/${BVER}/config/
+COPY --from=builder /node-binary/cli/${BNET}/${CLIVER}/linux/bnbcli /node-binary/cli/${BNET}/${BVER}/linux/
+COPY --from=builder /node-binary/${NODETYPE}/bnbchaind /node-binary/${NODETYPE}/linux/
 COPY ./bin/*.sh /usr/local/bin/
 
 RUN set -ex \
