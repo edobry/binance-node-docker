@@ -19,6 +19,9 @@ ARG NODETYPE=quicksync
 
 RUN apt-get update && apt-get install -y --no-install-recommends upx ca-certificates wget git git-lfs binutils
 RUN	git lfs clone --depth 1 https://github.com/binance-chain/node-binary.git
+RUN	git clone https://github.com/binance-chain/node-binary.git node-binary-quicksync
+RUN	git -C node-binary-quicksync checkout quicksync
+RUN	git -C node-binary-quicksync lfs pull
 
 # RUN upx /node-binary/cli/testnet/${CLIVER}/linux/tbnbcli \
 # && upx /node-binary/cli/prod/${CLIVER}/linux/bnbcli \
@@ -40,8 +43,9 @@ ARG NODETYPE=quicksync
 ENV BNET=prod
 ENV BNCHOME=/opt/bnbchaind
 
+COPY --from=builder /node-binary/cli/testnet/${CLIVER}/linux/tbnbcli /node-binary/cli/testnet/${BVER}/linux/
 COPY --from=builder /node-binary/cli/${BNET}/${CLIVER}/linux/bnbcli /node-binary/cli/${BNET}/${BVER}/linux/
-COPY --from=builder /node-binary/${NODETYPE}/bnbchaind /node-binary/${NODETYPE}/linux/
+COPY --from=builder /node-binary-quicksync/quicksync/bnbchaind /node-binary/quicksync/linux/
 COPY ./bin/*.sh /usr/local/bin/
 
 RUN set -ex \
